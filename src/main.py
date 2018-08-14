@@ -42,7 +42,7 @@ if __name__ == '__main__':
         else:
             print("Config changed!")
             haproxy_config.write(new_render)
-            run("sudo systemctl reload haproxy", shell=True, check=True)
+            run(config['haproxy_reload_command'], shell=True, check=True)
             
         haproxy_config.close()
         haproxy_template.close()
