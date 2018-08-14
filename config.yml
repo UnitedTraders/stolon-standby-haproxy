@@ -1,0 +1,4 @@
+postgres_haproxy_port: 35432
+postgres_haproxy_config: '/etc/haproxy/stolon_standby.cfg'
+haproxy_reload_command: '/usr/bin/sudo systemctl reload haproxy'
+timeout: 60
