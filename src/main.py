@@ -36,7 +36,7 @@ if __name__ == '__main__':
         new_render = template.render(servers=standby_list,
                                 frontend_port=config['postgres_haproxy_port'])
 
-        haproxy_config = open(config['postgres_haproxy_config'], 'r+')
+        haproxy_config = open(config['postgres_haproxy_config'], 'w+')
         if haproxy_config.read() == new_render:
             print("Config not changed!")
         else:
