@@ -20,11 +20,12 @@ def check_env_variables():
             sys.stderr.write("Please set {} environment variable".format(ne))
             sys.exit(1)
 
-if len(sys.argv) != 2:
-    print("Usage: %s <yaml config>" % sys.argv[0])
-    sys.exit(-1)
 
 if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: %s <yaml config>" % sys.argv[0])
+        sys.exit(-1)
+
     # read config
     config = read_config(sys.argv[1])
     check_env_variables()
@@ -40,9 +41,10 @@ if __name__ == '__main__':
 
         # get standby's
         for db in stolon_json['DBs']:
-            if stolon_json['DBs'][db]['status']['healthy'] and stolon_json['DBs'][db]['spec']['role'] == 'standby':
+            database = stolon_json['DBs'][db]
+            if database['status']['healthy'] and database['spec']['role'] == 'standby':
                 standby_list.append(
-                    stolon_json['DBs'][db]['status']['listenAddress'] + ':' + stolon_json['DBs'][db]['status']['port'])
+                    database['status']['listenAddress'] + ':' + database['status']['port'])
         # print(standby_list)
 
         template = Template(haproxy_template.read())
