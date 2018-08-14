@@ -1,6 +1,7 @@
 import json
 import sys
 import yaml
+import os
 from jinja2 import Template
 from subprocess import check_output, run
 import time
@@ -11,7 +12,7 @@ def read_config(config_file):
     return yaml.load(input_file.read())
 
 
-def CheckEnvVariables():
+def check_env_variables():
     need_env = ['STKEEPER_UID', 'STOLONCTL_CLUSTER_NAME',
                 'STOLONCTL_STORE_BACKEND', 'STOLONCTL_STORE_ENDPOINTS']
     for ne in need_env:
@@ -26,7 +27,7 @@ if len(sys.argv) != 2:
 if __name__ == '__main__':
     # read config
     config = read_config(sys.argv[1])
-    CheckEnvVariables()
+    check_env_variables()
     STOLON_HOSTNAME = os.environ['STKEEPER_UID']
 
     while True:
