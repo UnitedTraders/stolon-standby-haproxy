@@ -1,0 +1,3 @@
+postgres_haproxy_port: 35432
+postgres_haproxy_config: '/etc/haproxy/stolon_standby.cfg'
+timeout: 60
