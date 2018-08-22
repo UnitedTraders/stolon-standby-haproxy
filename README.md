@@ -5,7 +5,28 @@
 * Create Python 3.6 virtualenv
 * Clone repo into it
 * Install requirements `pip install -r requirements.txt`
-* Set needed variables in config.yml
+* Set needed variables in config.yml and environment variables for stolonctl
+
+## Example systemd unit
+
+```
+[Unit]
+Description=stolon_haproxy is script for access to the stolon replicas
+After=network.target
+Requires=network.target
+
+[Service]
+ExecStart=/opt/stolon_haproxy/env/bin/python src/main.py config.yml
+User=ansible
+Environment="STKEEPER_UID=pgtest3"
+Environment="STOLONCTL_CLUSTER_NAME=pg-stolon"
+Environment="STOLONCTL_STORE_BACKEND=etcdv3"
+Environment="STOLONCTL_STORE_ENDPOINTS=http://localhost:2379"
+Environment="PATH=$PATH:/usr/stolon-0.10.0/bin"
+WorkingDirectory=/opt/stolon_haproxy/sources
+Restart=on-failure
+RestartSec=100ms
+```
 
 ## Usage
 
