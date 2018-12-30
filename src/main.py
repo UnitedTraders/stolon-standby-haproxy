@@ -42,9 +42,10 @@ if __name__ == '__main__':
         # get standby's
         for db in stolon_json['DBs']:
             database = stolon_json['DBs'][db]
-            if database['status']['healthy'] and database['spec']['role'] == 'standby':
-                standby_list.append(
-                    database['status']['listenAddress'] + ':' + database['status']['port'])
+            if 'healthy' in database['status']:
+                if database['status']['healthy'] and database['spec']['role'] == 'standby':
+                    standby_list.append(
+                        database['status']['listenAddress'] + ':' + database['status']['port'])
         # print(standby_list)
 
         template = Template(haproxy_template.read())
