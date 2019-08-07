@@ -39,9 +39,15 @@ if __name__ == '__main__':
 
         standby_list = []
 
+        # Adding support for newer version stolon clusterdata format
+        if stolon_json.has_key('DBs'):
+            key = 'DBs'
+        else:
+            key = 'dbs'
+
         # get standby's
-        for db in stolon_json['DBs']:
-            database = stolon_json['DBs'][db]
+        for db in stolon_json[key]:
+            database = stolon_json[key][db]
             if 'healthy' in database['status']:
                 if database['status']['healthy'] and database['spec']['role'] == 'standby':
                     standby_list.append(
