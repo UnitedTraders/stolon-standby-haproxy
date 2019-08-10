@@ -10,8 +10,7 @@ import time
 def read_config(config_file):
     input_file = open(config_file, 'rb')
     return yaml.load(input_file.read())
-
-
+ 
 def check_env_variables():
     need_env = ['STKEEPER_UID', 'STOLONCTL_CLUSTER_NAME',
                 'STOLONCTL_STORE_BACKEND', 'STOLONCTL_STORE_ENDPOINTS']
@@ -40,7 +39,7 @@ if __name__ == '__main__':
         standby_list = []
 
         # Adding support for newer version stolon clusterdata format
-        if stolon_json.has_key('DBs'):
+        if 'DBs' in stolon_json:
             key = 'DBs'
         else:
             key = 'dbs'
@@ -48,7 +47,7 @@ if __name__ == '__main__':
         # get standby's
         for db in stolon_json[key]:
             database = stolon_json[key][db]
-            if 'healthy' in database['status']:
+            if 'healthy' in database['status'] and 'listenAddress' in database['status']:
                 if database['status']['healthy'] and database['spec']['role'] == 'standby':
                     standby_list.append(
                         database['status']['listenAddress'] + ':' + database['status']['port'])
