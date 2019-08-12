@@ -3,6 +3,8 @@
 /include
 /lib
 /pip-selfcheck.json
+/venv
+/env
 
 
 # byte-compiled / optimized / DLL files
