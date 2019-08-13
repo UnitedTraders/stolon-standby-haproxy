@@ -41,3 +41,12 @@ All Docker-related configs stored in `docker` folder (except Dockerfile).
 Build: `docker build -t registry/stolon-haproxy:latest .`
 
 Run: `docker run --rm -e STKEEPER_UID=pgkeepertest -e STOLONCTL_CLUSTER_NAME=pg-stolon -e STOLONCTL_STORE_BACKEND=etcdv3 -e STOLONCTL_STORE_ENDPOINTS=http://etcd.example.com:2379 registry/stolon-haproxy`
+
+## TODO (PRs are welcome ;) )
+
+* Apply Docker best practices (run from unprivileged user etc);
+* Handle exceptions in main script;
+* Write tests;
+* CI/CD, Docker Hub publishing;
+* Tune default HAProxy config;
+* Compatibility with `stolonctl` 0.14.
