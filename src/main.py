@@ -12,8 +12,7 @@ def read_config(config_file):
     return yaml.load(input_file.read())
  
 def check_env_variables():
-    need_env = ['STKEEPER_UID', 'STOLONCTL_CLUSTER_NAME',
-                'STOLONCTL_STORE_BACKEND', 'STOLONCTL_STORE_ENDPOINTS']
+    need_env = ['STOLONCTL_CLUSTER_NAME', 'STOLONCTL_STORE_BACKEND', 'STOLONCTL_STORE_ENDPOINTS']
     for ne in need_env:
         if ne not in os.environ:
             sys.stderr.write("Please set {} environment variable".format(ne))
@@ -28,7 +27,6 @@ if __name__ == '__main__':
     # read config
     config = read_config(sys.argv[1])
     check_env_variables()
-    STOLON_HOSTNAME = os.environ['STKEEPER_UID']
 
     while True:
 

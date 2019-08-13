@@ -18,7 +18,6 @@ Requires=network.target
 [Service]
 ExecStart=/opt/stolon_haproxy/env/bin/python src/main.py config.yml
 User=ansible
-Environment="STKEEPER_UID=pgtest3"
 Environment="STOLONCTL_CLUSTER_NAME=pg-stolon"
 Environment="STOLONCTL_STORE_BACKEND=etcdv3"
 Environment="STOLONCTL_STORE_ENDPOINTS=http://localhost:2379"
@@ -40,7 +39,7 @@ All Docker-related configs stored in `docker` folder (except Dockerfile).
 
 Build: `docker build -t registry/stolon-haproxy:latest .`
 
-Run: `docker run --rm -e STKEEPER_UID=pgkeepertest -e STOLONCTL_CLUSTER_NAME=pg-stolon -e STOLONCTL_STORE_BACKEND=etcdv3 -e STOLONCTL_STORE_ENDPOINTS=http://etcd.example.com:2379 registry/stolon-haproxy`
+Run: `docker run --rm -e STOLONCTL_CLUSTER_NAME=pg-stolon -e STOLONCTL_STORE_BACKEND=etcdv3 -e STOLONCTL_STORE_ENDPOINTS=http://etcd.example.com:2379 registry/stolon-haproxy`
 
 ## TODO (PRs are welcome ;) )
 
