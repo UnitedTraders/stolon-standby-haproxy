@@ -9,7 +9,7 @@
 
 ## Example systemd unit
 
-```
+```systemd
 [Unit]
 Description=stolon_haproxy is script for access to the stolon replicas
 After=network.target
@@ -33,3 +33,11 @@ RestartSec=100ms
 `python src/main.py config.yml`
 
 Script will check stolon state every `timeout` secs and restart HAProxy with new config every time when state was changed.
+
+## Docker
+
+All Docker-related configs stored in `docker` folder (except Dockerfile).
+
+Build: `docker build -t registry/stolon-haproxy:latest .`
+
+Run: `docker run --rm -e STKEEPER_UID=pgkeepertest -e STOLONCTL_CLUSTER_NAME=pg-stolon -e STOLONCTL_STORE_BACKEND=etcdv3 -e STOLONCTL_STORE_ENDPOINTS=http://etcd.example.com:2379 registry/stolon-haproxy`
