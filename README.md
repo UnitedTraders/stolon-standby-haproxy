@@ -7,6 +7,21 @@
 * Install requirements `pip install -r requirements.txt`
 * Set needed variables in config.yml and environment variables for stolonctl
 
+## Configuration
+
+```yml
+# port which haproxy binds to
+postgres_haproxy_port: 35432
+# path for generated config for haproxy
+postgres_haproxy_config: '/etc/haproxy/stolon_standby.cfg'
+# command for reloading haproxy when config changed
+haproxy_reload_command: '/usr/bin/sudo systemctl reload haproxy'
+# period between stolon status check in seconds
+timeout: 60
+# if set to true, stolon-haproxy will bind to master when no healthy slaves available
+fallback_to_master: false
+```
+
 ## Example systemd unit
 
 ```systemd
@@ -16,7 +31,7 @@ After=network.target
 Requires=network.target
 
 [Service]
-ExecStart=/opt/stolon_haproxy/env/bin/python src/main.py config.yml
+ExecStart=/opt/stolon_haproxy/env/bin/python src/stolon_haproxy.py config.yml
 User=ansible
 Environment="STOLONCTL_CLUSTER_NAME=pg-stolon"
 Environment="STOLONCTL_STORE_BACKEND=etcdv3"
@@ -29,7 +44,7 @@ RestartSec=100ms
 
 ## Usage
 
-`python src/main.py config.yml`
+`python src/stolon_haproxy.py config.yml`
 
 Script will check stolon state every `timeout` secs and restart HAProxy with new config every time when state was changed.
 
@@ -41,11 +56,26 @@ Build: `docker build -t registry/stolon-haproxy:latest .`
 
 Run: `docker run --rm -e STOLONCTL_CLUSTER_NAME=pg-stolon -e STOLONCTL_STORE_BACKEND=etcdv3 -e STOLONCTL_STORE_ENDPOINTS=http://etcd.example.com:2379 registry/stolon-haproxy`
 
+## Testing
+
+```bash
+
+[venv] $ cd src
+
+[venv] $ python -m unittest -v stolon_haproxy_test.py
+
+test_with_fallback (stolon_haproxy_test.TestStolonJson) ... ok
+test_without_fallback (stolon_haproxy_test.TestStolonJson) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+```
+
 ## TODO (PRs are welcome ;) )
 
 * Apply Docker best practices (run from unprivileged user etc);
 * Handle exceptions in main script;
-* Write tests;
 * CI/CD, Docker Hub publishing;
 * Tune default HAProxy config;
-* Compatibility with `stolonctl` 0.14.
+* Compatibility with `stolonctl` 0.14;
+* Prometheus metrics (master fallback, last haproxy reload, reload counter).

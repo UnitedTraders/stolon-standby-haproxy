@@ -5,6 +5,7 @@ import os
 from jinja2 import Template
 from subprocess import check_output, run
 import time
+import logging
 
 
 def read_config(config_file):
@@ -18,6 +19,32 @@ def check_env_variables():
             sys.stderr.write("Please set {} environment variable".format(ne))
             sys.exit(1)
 
+# get_stolon_servers accepts a JSON from stolonctl utility and returns list of servers available to connect
+def get_stolon_servers(stolon_json, fallback_to_master=False):
+    server_list=[]
+
+    # Adding support for newer version stolon clusterdata format
+    if 'DBs' in stolon_json:
+        key = 'DBs'
+    else:
+        key = 'dbs'
+
+    # get standby's
+    for db in stolon_json[key]:
+        database = stolon_json[key][db]
+        if 'healthy' in database['status'] and 'listenAddress' in database['status']:
+            if database['status']['healthy']:
+                if  database['spec']['role'] == 'standby':
+                    server_list.append(
+                        database['status']['listenAddress'] + ':' + database['status']['port'])
+                else:
+                    master_address = database['status']['listenAddress'] + ':' + database['status']['port']
+            
+
+    if server_list == [] and fallback_to_master:
+        server_list.append(master_address)       
+
+    return server_list
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -34,21 +61,14 @@ if __name__ == '__main__':
             "stolonctl clusterdata", shell=True))
         haproxy_template = open('./stolon_haproxy.j2', 'r')
 
-        standby_list = []
+        standby_list = get_stolon_servers(stolon_json, config['fallback_to_master'])
+        
+        # if np servers to route - skip this iteration and print the error
+        if standby_list == []:
+            logging.error("No available backends!")
+            continue
 
-        # Adding support for newer version stolon clusterdata format
-        if 'DBs' in stolon_json:
-            key = 'DBs'
-        else:
-            key = 'dbs'
 
-        # get standby's
-        for db in stolon_json[key]:
-            database = stolon_json[key][db]
-            if 'healthy' in database['status'] and 'listenAddress' in database['status']:
-                if database['status']['healthy'] and database['spec']['role'] == 'standby':
-                    standby_list.append(
-                        database['status']['listenAddress'] + ':' + database['status']['port'])
         # print(standby_list)
 
         template = Template(haproxy_template.read())
@@ -57,9 +77,9 @@ if __name__ == '__main__':
 
         haproxy_config = open(config['postgres_haproxy_config'], 'r')
         if haproxy_config.read() == new_render:
-            print("Config not changed!")
+            logging.info("Config not changed!")
         else:
-            print("Config changed!")
+            logging.info("Config changed!")
             haproxy_config.close()
             haproxy_config = open(config['postgres_haproxy_config'], 'w')
             haproxy_config.write(new_render)
