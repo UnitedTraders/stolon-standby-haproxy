@@ -31,3 +31,6 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# IDE
+.vscode/
