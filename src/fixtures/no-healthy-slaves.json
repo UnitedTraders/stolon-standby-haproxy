@@ -1,0 +1,201 @@
+{
+    "FormatVersion": 1,
+    "Cluster": {
+        "uid": "d1cc812c",
+        "generation": 1,
+        "changeTime": "2018-07-26T05:01:02.062087273+03:00",
+        "spec": {
+            "initMode": "new",
+            "pgParameters": {
+                "archive_mode": "on"
+            },
+            "pgHBA": [
+                "host all all 0.0.0.0/0 md5"
+            ]
+        },
+        "status": {
+            "phase": "normal",
+            "master": "f8b4b592"
+        }
+    },
+    "Keepers": {
+        "pgtest1": {
+            "uid": "pgtest1",
+            "generation": 1,
+            "changeTime": "0001-01-01T00:00:00Z",
+            "spec": {},
+            "status": {
+                "healthy": true,
+                "lastHealthyTime": "2019-08-28T08:25:49.818681527+02:00",
+                "bootUUID": "48ece907-5ad0-4274-805d-1e502f5b5bd1"
+            }
+        },
+        "pgtest2": {
+            "uid": "pgtest2",
+            "generation": 1,
+            "changeTime": "0001-01-01T00:00:00Z",
+            "spec": {},
+            "status": {
+                "healthy": true,
+                "lastHealthyTime": "2019-08-28T08:25:49.818682027+02:00",
+                "bootUUID": "a5eb836e-f16e-4ee6-92b3-fffa5204bba1"
+            }
+        },
+        "pgtest3": {
+            "uid": "pgtest3",
+            "generation": 1,
+            "changeTime": "0001-01-01T00:00:00Z",
+            "spec": {},
+            "status": {
+                "healthy": true,
+                "lastHealthyTime": "2019-08-28T08:25:49.818682282+02:00",
+                "bootUUID": "9c63c7cc-f039-4f18-bfda-e613487290a5"
+            }
+        }
+    },
+    "DBs": {
+        "00331f3f": {
+            "uid": "00331f3f",
+            "generation": 4,
+            "changeTime": "2019-08-08T14:15:26.369498578+02:00",
+            "spec": {
+                "keeperUID": "pgtest1",
+                "initMode": "none",
+                "pgParameters": {
+                    "archive_mode": "on"
+                },
+                "pgHBA": [
+                    "host all all 0.0.0.0/0 md5"
+                ],
+                "role": "standby",
+                "followConfig": {
+                    "type": "internal",
+                    "dbuid": "f8b4b592"
+                },
+                "followers": [],
+                "synchronousStandbys": null,
+                "externalSynchronousStandbys": null
+            },
+            "status": {
+                "healthy": false,
+                "currentGeneration": 4,
+                "listenAddress": "1.1.1.1",
+                "port": "5432",
+                "systemdID": "6586843031966015786",
+                "timelineID": 9,
+                "xLogPos": 1355636723296,
+                "timelinesHistory": [
+                    {
+                        "timelineID": 1,
+                        "switchPoint": 42871275056,
+                        "reason": "no recovery target specified"
+                    }
+                ],
+                "pgParameters": {
+                    "archive_mode": "on"
+                },
+                "synchronousStandbys": [],
+                "olderWalFile": "000000090000013B00000099"
+            }
+        },
+        "f4106a7d": {
+            "uid": "f4106a7d",
+            "generation": 4,
+            "changeTime": "2019-08-08T14:15:26.369032968+02:00",
+            "spec": {
+                "keeperUID": "pgtest2",
+                "initMode": "none",
+                "pgParameters": {
+                    "archive_mode": "on"
+                },
+                "pgHBA": [
+                    "host all all 0.0.0.0/0 md5"
+                ],
+                "role": "standby",
+                "followConfig": {
+                    "type": "internal",
+                    "dbuid": "f8b4b592"
+                },
+                "followers": [],
+                "synchronousStandbys": null,
+                "externalSynchronousStandbys": null
+            },
+            "status": {
+                "healthy": false,
+                "currentGeneration": 4,
+                "listenAddress": "2.2.2.2",
+                "port": "5432",
+                "systemdID": "6586843031966015786",
+                "timelineID": 9,
+                "xLogPos": 1355636722952,
+                "timelinesHistory": [
+                    {
+                        "timelineID": 1,
+                        "switchPoint": 42871275056,
+                        "reason": "no recovery target specified"
+                    }
+                ],
+                "pgParameters": {
+                    "archive_mode": "on"
+                },
+                "synchronousStandbys": [],
+                "olderWalFile": "000000090000013B00000099"
+            }
+        },
+        "f8b4b592": {
+            "uid": "f8b4b592",
+            "generation": 7,
+            "changeTime": "2019-08-08T14:15:26.369275642+02:00",
+            "spec": {
+                "keeperUID": "pgtest3",
+                "initMode": "none",
+                "pgParameters": {
+                    "archive_mode": "on"
+                },
+                "pgHBA": [
+                    "host all all 0.0.0.0/0 md5"
+                ],
+                "role": "master",
+                "followers": [
+                    "00331f3f",
+                    "f4106a7d"
+                ],
+                "synchronousStandbys": null,
+                "externalSynchronousStandbys": null
+            },
+            "status": {
+                "healthy": true,
+                "currentGeneration": 7,
+                "listenAddress": "3.3.3.3",
+                "port": "5432",
+                "systemdID": "6586843031966015786",
+                "timelineID": 9,
+                "xLogPos": 1355636722952,
+                "timelinesHistory": [
+                    {
+                        "timelineID": 1,
+                        "switchPoint": 42871275056,
+                        "reason": "no recovery target specified"
+                    }
+                ],
+                "pgParameters": {
+                    "archive_mode": "on"
+                },
+                "synchronousStandbys": [],
+                "olderWalFile": "000000090000013B0000009A"
+            }
+        }
+    },
+    "Proxy": {
+        "generation": 562,
+        "changeTime": "2019-08-21T03:35:44.226429232+02:00",
+        "spec": {
+            "masterDbUid": "f8b4b592",
+            "enabledProxies": [
+                "164a1388",
+                "2dc5b084"
+          ]
+        },
+        "status": {}
+    }
+}
