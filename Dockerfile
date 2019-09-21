@@ -39,5 +39,5 @@ COPY docker/supervisord.conf /app/supervisord.conf
 
 COPY src /app/src
 
-EXPOSE 35432
+EXPOSE 35432 8181
 CMD ["supervisord", "-c", "/app/supervisord.conf"]
