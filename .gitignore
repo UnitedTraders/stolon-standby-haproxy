@@ -4,6 +4,7 @@
 /lib
 /pip-selfcheck.json
 /venv
+/.venv
 /env
 
 

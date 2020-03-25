@@ -73,7 +73,10 @@ if __name__ == '__main__':
 
         template = Template(haproxy_template.read())
         new_render = template.render(servers=standby_list,
-                                     frontend_port=config['postgres_haproxy_port'])
+                                     frontend_port=config['postgres_haproxy_port'], 
+                                     inter_timeout_ms=config['inter_timeout_ms'], 
+                                     fall_count=config['inter_timeout_ms'], 
+                                     rise_count=config['rise_count'])
 
         haproxy_config = open(config['postgres_haproxy_config'], 'r')
         if haproxy_config.read() == new_render:
