@@ -4,7 +4,7 @@ frontend stolon_standby_frontend
 	use_backend stolon_standby_backend
 
 backend stolon_standby_backend
-  mode tcp
-  balance roundrobin
-{% for server in servers %}  server stolon_standby_{{ loop.index }} {{ server }} check port {{ server.split(":")[1] }} inter 5 fall 3 rise 2
+	mode tcp
+	balance roundrobin
+{% for server in servers %}        server stolon_standby_{{ loop.index }} {{ server }} check port {{ server.split(":")[1] }} inter {{ inter_timeout_ms }} fall {{ fall_count }} rise {{ rise_count }}
 {% endfor %}

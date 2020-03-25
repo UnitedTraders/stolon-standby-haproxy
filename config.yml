@@ -3,3 +3,6 @@ postgres_haproxy_config: '/etc/haproxy/stolon_standby.cfg'
 haproxy_reload_command: '/usr/bin/sudo systemctl reload haproxy'
 timeout: 60
 fallback_to_master: true
+inter_timeout_ms: 1000
+fall_count: 3
+rise_count: 2

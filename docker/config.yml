@@ -3,3 +3,6 @@ postgres_haproxy_config: '/usr/local/etc/haproxy/stolon-config.cfg'
 haproxy_reload_command: 'kill -USR2 $(cat /tmp/haproxy.pid)'
 timeout: 30
 fallback_to_master: true
+inter_timeout_ms: 1000
+fall_count: 3
+rise_count: 2

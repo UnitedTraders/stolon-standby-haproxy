@@ -1,3 +1,4 @@
+[![Known Vulnerabilities](https://snyk.io/test/github/UnitedTraders/stolon-standby-haproxy/badge.svg)](https://snyk.io/test/github/UnitedTraders/stolon-standby-haproxy)
 # HAProxy config generator for Stolon replicas
 
 ## Setup
@@ -20,6 +21,13 @@ haproxy_reload_command: '/usr/bin/sudo systemctl reload haproxy'
 timeout: 60
 # if set to true, stolon-haproxy will bind to master when no healthy slaves available
 fallback_to_master: false
+# settings below used for haproxy backend configuration, see haproxy documentation (https://www.haproxy.com/documentation/aloha/10-0/traffic-management/lb-layer7/health-checks/)
+# timeout for haproxy tcp check
+inter_timeout_ms: 1000
+# how many checks should be failed before postgres instance will marked as DONW
+fall_count: 3
+# how many checks should be succeed before postgres instance will marked as UP
+rise_count: 2
 ```
 
 ## Example systemd unit
