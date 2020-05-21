@@ -85,5 +85,4 @@ Ran 2 tests in 0.002s
 * Handle exceptions in main script;
 * CI/CD, Docker Hub publishing;
 * Tune default HAProxy config;
-* Compatibility with `stolonctl` 0.14;
 * Prometheus metrics (master fallback, last haproxy reload, reload counter).
