@@ -58,7 +58,7 @@ if __name__ == '__main__':
     while True:
 
         stolon_json = json.loads(check_output(
-            "stolonctl clusterdata", shell=True))
+            "stolonctl clusterdata read", shell=True))
         haproxy_template = open('./stolon_haproxy.j2', 'r')
 
         standby_list = get_stolon_servers(stolon_json, config['fallback_to_master'])
